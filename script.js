@@ -23,28 +23,33 @@ function complete() {
 function newQuote() {
   loading();
   // Pick a random quote from apiQuotes array
-  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+  // const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+  const quote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
   if (quote.text.length > 100) {
     quoteText.classList.remove("quote-text");
     quoteText.classList.add("long-quote");
   }
   quoteText.textContent = quote.text;
-  authorText.textContent = quote.author;
+  if (!quote.author) {
+    authorText.textContent = "Unknown";
+  } else {
+    authorText.textContent = quote.author;
+  }
   complete();
 }
 
-// Get quotes from API
-async function getQuotes() {
-  loading();
-  const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json";
-  try {
-    const response = await fetch(apiUrl);
-    apiQuotes = await response.json();
-    newQuote();
-  } catch (error) {
-    // Catch error
-  }
-}
+// // Get quotes from API
+// async function getQuotes() {
+//   loading();
+//   const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json";
+//   try {
+//     const response = await fetch(apiUrl);
+//     apiQuotes = await response.json();
+//     newQuote();
+//   } catch (error) {
+//     // Catch error
+//   }
+// }
 
 // Tweet Quote
 function tweetQuote() {
@@ -58,4 +63,5 @@ newQuoteBtn.addEventListener("click", newQuote);
 twitterBtn.addEventListener("click", tweetQuote);
 
 // On Load
-getQuotes();
+// getQuotes();
+newQuote();
